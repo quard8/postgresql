@@ -27,6 +27,15 @@ node['postgresql']['server']['packages'].each do |pg_pack|
 
 end
 
+# FIXME Hack hack hack... https://github.com/phlipper/chef-postgresql/issues/52
+directory "/var/run/postgresql" do
+  owner "postgres"
+  group "postgres"
+  mode 2775
+  action :create
+end
+
+
 service "postgresql" do
   service_name node['postgresql']['server']['service_name']
   supports :restart => true, :status => true, :reload => true
